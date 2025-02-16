@@ -1,0 +1,16 @@
+@font-face {
+    font-family: 'DIGITAL-7';
+    src: url('assets/fonts/digital-7 (mono).ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #edf2fa;
+}
+
+.app {
+    margin-top: 20px;
+}

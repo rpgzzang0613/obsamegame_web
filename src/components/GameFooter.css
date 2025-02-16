@@ -1,0 +1,91 @@
+.game-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+}
+
+.footer-section {
+    padding-left: 16px;
+    padding-right: 16px;
+    width: 320px;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    font-weight: 700;
+    border: 2px outset #fff;
+    background-color: #f0f0f0;
+    color: black;
+    text-align: center;
+}
+
+.btn-container button:disabled {
+    border: 1px solid #ccc;
+    color: #b0b0b0;
+}
+
+.btn-container button:not(:disabled):active {
+    border-color: #333;
+}
+
+.btn-container button:not(:disabled):active > span  {
+    transform: translate(1px, 1px);
+}
+
+.btn-container > button.btn-new {
+    width: 90px;
+    height: 28px;
+}
+
+.btn-container .controls {
+    display: flex;
+    gap: 4px;
+}
+
+.btn-container .controls button.btn-history {
+    width: 75px;
+    height: 28px;
+}
+
+.display-container {
+    display: flex;
+}
+
+.display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: none;
+    font-weight: 700;
+    flex: 1;
+}
+
+.label {
+    cursor: default;
+    color: yellow;
+}
+
+.digital {
+    background-color: black;
+    color: red;
+    font-family: "DIGITAL-7", sans-serif;
+    font-size: 32px;
+    line-height: 24px;
+    font-weight: 500;
+    cursor: default;
+}

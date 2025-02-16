@@ -1,0 +1,40 @@
+.header {
+    display: flex;
+    height: 27px;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+}
+
+.header img {
+    width: 18px;
+    height: 18px;
+}
+.header img.px-16 {
+    width: 16px;
+    height: 16px;
+}
+
+.header-left {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    padding-left: 4px;
+}
+
+.header-left span {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+}
+
+.header-right {
+    display: flex;
+}
+
+.header-right > div {
+    width: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
