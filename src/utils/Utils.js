@@ -32,52 +32,33 @@ export const findConnectedBlocks = (board, row, col, target, visited = new Set()
 
 export const applyGravity = (board, ROWS = 10, COLS = 20) => {
   for (let col = 0; col < COLS; col++) {
-    let emptyRows = [];
+    let writeRow = ROWS - 1;
 
     for (let row = ROWS - 1; row >= 0; row--) {
-      if (board[row][col] === 0) {
-        emptyRows.push(row);
-      } else if (emptyRows.length > 0) {
-        let newRow = emptyRows.shift();
-        board[newRow][col] = board[row][col];
-        board[row][col] = 0;
-        emptyRows.push(row);
-      }
-    }
-  }
-
-  let nonEmptyColumns = [];
-
-  for (let col = 0; col < COLS; col++) {
-    let isEmpty = true;
-    for (let row = 0; row < ROWS; row++) {
       if (board[row][col] !== 0) {
-        isEmpty = false;
-        break;
+        if (row !== writeRow) {
+          board[writeRow][col] = board[row][col];
+          board[row][col] = 0;
+        }
+        writeRow--;
       }
     }
-    if (!isEmpty) {
-      nonEmptyColumns.push(col);
+  }
+
+  let writeCol = 0;
+  for (let col = 0; col < COLS; col++) {
+    if (board[ROWS - 1][col] !== 0) {
+      if (col !== writeCol) {
+        for (let row = 0; row < ROWS; row++) {
+          board[row][writeCol] = board[row][col];
+          board[row][col] = 0;
+        }
+      }
+      writeCol++;
     }
   }
 
-  let newBoard = board.map(row => [...row]);
-  let currentCol = 0;
-
-  for (let col of nonEmptyColumns) {
-    for (let row = 0; row < ROWS; row++) {
-      newBoard[row][currentCol] = board[row][col];
-    }
-    currentCol++;
-  }
-
-  for (let col = currentCol; col < COLS; col++) {
-    for (let row = 0; row < ROWS; row++) {
-      newBoard[row][col] = 0;
-    }
-  }
-
-  return newBoard;
+  return board;
 };
 
 export const zeroPad = (num, places) => {
