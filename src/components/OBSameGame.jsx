@@ -23,7 +23,7 @@ import GameContent from './GameContent.jsx';
 import GameFooter from './GameFooter.jsx';
 import './OBSameGame.css';
 import GameHeader from './GameHeader.jsx';
-import {SoundControl} from './SoundControl.jsx';
+import SoundControl from './SoundControl.jsx';
 
 // 이미지 매핑
 const tileImages = {
