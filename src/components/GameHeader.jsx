@@ -1,10 +1,10 @@
-import "./GameHeader.css";
-import header_icon from "../assets/images/header_icon.ico";
-import min_icon from "../assets/images/min_icon.png";
-import max_icon from "../assets/images/max_icon.png";
-import close_icon from "../assets/images/close_icon.png";
+import './GameHeader.css';
+import header_icon from '../assets/images/header_icon.ico';
+import min_icon from '../assets/images/min_icon.png';
+import max_icon from '../assets/images/max_icon.png';
+import close_icon from '../assets/images/close_icon.png';
 
-export default function GameHeader() {
+const GameHeader = () => {
   return (
     <div className="header">
       <div className="header-left">
@@ -24,4 +24,6 @@ export default function GameHeader() {
       </div>
     </div>
   );
-}
+};
+
+export default GameHeader;

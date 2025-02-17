@@ -1,41 +1,41 @@
-import { useState, useEffect, useCallback } from "react";
+import {useState, useEffect, useCallback} from 'react';
 import {
   generateBoard,
   findConnectedBlocks,
   applyGravity,
   updateScoreAndRemains,
   hasRemovableBlocks, playTileSound, playEndSound,
-} from "../utils/Utils";
-import tile_1_1 from "../assets/images/tile_1_1.png";
-import tile_1_2 from "../assets/images/tile_1_2.png";
-import tile_2_1 from "../assets/images/tile_2_1.png";
-import tile_2_2 from "../assets/images/tile_2_2.png";
-import tile_3_1 from "../assets/images/tile_3_1.png";
-import tile_3_2 from "../assets/images/tile_3_2.png";
-import tile_4_1 from "../assets/images/tile_4_1.png";
-import tile_4_2 from "../assets/images/tile_4_2.png";
-import tile_5_1 from "../assets/images/tile_5_1.png";
-import tile_5_2 from "../assets/images/tile_5_2.png";
-import GameContent from "./GameContent.jsx";
-import GameFooter from "./GameFooter.jsx";
-import "./OBSameGame.css";
+} from '../utils/Utils';
+import tile_1_1 from '../assets/images/tile_1_1.png';
+import tile_1_2 from '../assets/images/tile_1_2.png';
+import tile_2_1 from '../assets/images/tile_2_1.png';
+import tile_2_2 from '../assets/images/tile_2_2.png';
+import tile_3_1 from '../assets/images/tile_3_1.png';
+import tile_3_2 from '../assets/images/tile_3_2.png';
+import tile_4_1 from '../assets/images/tile_4_1.png';
+import tile_4_2 from '../assets/images/tile_4_2.png';
+import tile_5_1 from '../assets/images/tile_5_1.png';
+import tile_5_2 from '../assets/images/tile_5_2.png';
+import GameContent from './GameContent.jsx';
+import GameFooter from './GameFooter.jsx';
+import './OBSameGame.css';
 import GameHeader from './GameHeader.jsx';
 import {SoundControl} from './SoundControl.jsx';
 
 // 이미지 매핑
 const tileImages = {
-  1: { normal: tile_1_1, hover: tile_1_2 },
-  2: { normal: tile_2_1, hover: tile_2_2 },
-  3: { normal: tile_3_1, hover: tile_3_2 },
-  4: { normal: tile_4_1, hover: tile_4_2 },
-  5: { normal: tile_5_1, hover: tile_5_2 },
+  1: {normal: tile_1_1, hover: tile_1_2},
+  2: {normal: tile_2_1, hover: tile_2_2},
+  3: {normal: tile_3_1, hover: tile_3_2},
+  4: {normal: tile_4_1, hover: tile_4_2},
+  5: {normal: tile_5_1, hover: tile_5_2},
 };
 
 // 보드 크기
 const ROWS = 10;
 const COLS = 20;
 
-export default function OBSameGame() {
+const OBSameGame = () => {
   const [board, setBoard] = useState(generateBoard(ROWS, COLS));
   const [hoveredGroup, setHoveredGroup] = useState([]);
   const [history, setHistory] = useState([board]);
@@ -47,7 +47,7 @@ export default function OBSameGame() {
     (e) => {
       const tileElement = e.target;
 
-      if (!tileElement.classList.contains("tile")) return;
+      if (!tileElement.classList.contains('tile')) return;
 
       const rowIndex = parseInt(tileElement.dataset.rowIndex);
       const colIndex = parseInt(tileElement.dataset.colIndex);
@@ -61,14 +61,14 @@ export default function OBSameGame() {
         setHoveredGroup([]);
       }
     },
-    [board]
+    [board],
   );
 
   useEffect(() => {
-    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener('mousemove', handleMouseMove);
 
     return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener('mousemove', handleMouseMove);
     };
   }, [handleMouseMove]);
 
@@ -121,7 +121,7 @@ export default function OBSameGame() {
       setBoard(history[newIndex]);
       setHistoryIndex(newIndex);
 
-      const { tempScore, tempRemains } = updateScoreAndRemains(history, newIndex);
+      const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
       setScore(tempScore);
       setRemainingBlocks(tempRemains);
     }
@@ -133,7 +133,7 @@ export default function OBSameGame() {
       setBoard(history[newIndex]);
       setHistoryIndex(newIndex);
 
-      const { tempScore, tempRemains } = updateScoreAndRemains(history, newIndex);
+      const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
       setScore(tempScore);
       setRemainingBlocks(tempRemains);
     }
@@ -162,4 +162,6 @@ export default function OBSameGame() {
       <SoundControl />
     </div>
   );
-}
+};
+
+export default OBSameGame;

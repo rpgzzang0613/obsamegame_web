@@ -1,21 +1,25 @@
-import tileSound_1 from "../assets/sounds/tile_1.mp3";
-import tileSound_2 from "../assets/sounds/tile_2.mp3";
-import tileSound_3 from "../assets/sounds/tile_3.mp3";
-import tileSound_4 from "../assets/sounds/tile_4.mp3";
-import tileSound_5 from "../assets/sounds/tile_5.mp3";
-import endSound from "../assets/sounds/end.mp3";
+import tileSound_1 from '../assets/sounds/tile_1.mp3';
+import tileSound_2 from '../assets/sounds/tile_2.mp3';
+import tileSound_3 from '../assets/sounds/tile_3.mp3';
+import tileSound_4 from '../assets/sounds/tile_4.mp3';
+import tileSound_5 from '../assets/sounds/tile_5.mp3';
+import endSound from '../assets/sounds/end.mp3';
 
 export const generateBoard = (ROWS = 10, COLS = 20) => {
-  return Array.from({ length: ROWS }, () =>
-    Array.from({ length: COLS }, () => Math.floor(Math.random() * 5) + 1)
+  return Array.from({length: ROWS}, () =>
+    Array.from({length: COLS}, () => Math.floor(Math.random() * 5) + 1)
   );
 };
 
 export const findConnectedBlocks = (board, row, col, target, visited = new Set()) => {
   let key = `${row},${col}`;
   if (
-    row < 0 || row >= board.length || col < 0 || col >= board[0].length ||
-    board[row][col] !== target || visited.has(key)
+    row < 0 ||
+    row >= board.length ||
+    col < 0 ||
+    col >= board[0].length ||
+    board[row][col] !== target ||
+    visited.has(key)
   ) {
     return [];
   }
@@ -23,7 +27,12 @@ export const findConnectedBlocks = (board, row, col, target, visited = new Set()
   visited.add(key);
   let group = [[row, col]];
 
-  [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(([dr, dc]) => {
+  [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ].forEach(([dr, dc]) => {
     group.push(...findConnectedBlocks(board, row + dr, col + dc, target, visited));
   });
 
@@ -65,7 +74,7 @@ export const zeroPad = (num, places) => {
   return String(num).padStart(places, '0');
 };
 
-export const hasRemovableBlocks = (board) => {
+export const hasRemovableBlocks = board => {
   const ROWS = board.length;
   const COLS = board[0].length;
 
@@ -106,7 +115,7 @@ export const updateScoreAndRemains = (history, index) => {
     tempScore += (removedCount - 2) ** 2;
   }
 
-  return { tempScore, tempRemains };
+  return {tempScore, tempRemains};
 };
 
 export const playTileSound = tileNumber => {
@@ -132,18 +141,20 @@ export const playTileSound = tileNumber => {
       return;
   }
 
-  sound.play()
+  sound
+    .play()
     .then(r => console.log(r))
-    .catch((error) => {
-    console.error('Failed to load sound:', error);
-  });
+    .catch(error => {
+      console.error('Failed to load sound:', error);
+    });
 };
 
 export const playEndSound = () => {
   const sound = new Audio(endSound);
-  sound.play()
+  sound
+    .play()
     .then(r => console.log(r))
-    .catch((error) => {
-    console.error('Failed to load sound:', error);
-  });
+    .catch(error => {
+      console.error('Failed to load sound:', error);
+    });
 };

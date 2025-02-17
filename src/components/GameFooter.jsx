@@ -1,7 +1,7 @@
-import "./GameFooter.css";
+import './GameFooter.css';
 import {zeroPad} from '../utils/Utils.js';
 
-export default function GameFooter({ handleNewGame, handleUndo, handleRedo, historyIndex, historyLength, score, remainingBlocks }) {
+const GameFooter = ({handleNewGame, handleUndo, handleRedo, historyIndex, historyLength, score, remainingBlocks}) => {
   return (
     <div className="game-footer">
       <div className="footer-section">
@@ -34,4 +34,7 @@ export default function GameFooter({ handleNewGame, handleUndo, handleRedo, hist
       </div>
     </div>
   );
-}
+};
+
+export default GameFooter;
+

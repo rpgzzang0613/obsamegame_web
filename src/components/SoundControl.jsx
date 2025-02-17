@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import bgm from "../assets/sounds/bgm.mp3";
 import "./SoundControl.css";
 
-export const SoundControl = () => {
+const SoundControl = () => {
   const [isBgmOn, setIsBgmOn] = useState(false);
   const audioRef = useRef(null);
 
@@ -40,3 +40,5 @@ export const SoundControl = () => {
     </div>
   );
 };
+
+export default SoundControl;

@@ -1,12 +1,12 @@
-import "./GameContent.css";
+import './GameContent.css';
 
-export default function GameContent({ board, hoveredGroup, tileImages, handleClick }) {
+const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
   return (
     <div className="game-board">
       {board.map((row, rowIndex) =>
         row.map((tile, colIndex) => {
           const isHovered = hoveredGroup.some(
-            ([r, c]) => r === rowIndex && c === colIndex
+            ([r, c]) => r === rowIndex && c === colIndex,
           );
           const imgSrc =
             tile === 0
@@ -26,8 +26,10 @@ export default function GameContent({ board, hoveredGroup, tileImages, handleCli
               onClick={() => handleClick(rowIndex, colIndex)}
             />
           );
-        })
+        }),
       )}
     </div>
   );
-}
+};
+
+export default GameContent;

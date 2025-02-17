@@ -1,4 +1,4 @@
-import "./styles.css";
+import './styles.css';
 import OBSameGame from './components/OBSameGame.jsx';
 
 export default function App() {

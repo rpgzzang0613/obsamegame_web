@@ -40,7 +40,7 @@
     border-color: #333;
 }
 
-.btn-container button:not(:disabled):active > span  {
+.btn-container button:not(:disabled):active > span {
     transform: translate(1px, 1px);
 }
 
