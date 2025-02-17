@@ -118,43 +118,35 @@ export const updateScoreAndRemains = (history, index) => {
   return {tempScore, tempRemains};
 };
 
+let tileSounds = [];
+
+export const preloadTileSounds = async () => {
+  const tileSoundFiles = [tileSound_1, tileSound_2, tileSound_3, tileSound_4, tileSound_5];
+
+  const loadPromises = tileSoundFiles.map(async file => {
+    const audio = new Audio(file);
+    await new Promise(resolve => {
+      audio.oncanplaythrough = resolve;
+    });
+
+    return audio;
+  });
+
+  tileSounds = await Promise.all(loadPromises);
+};
+
 export const playTileSound = tileNumber => {
-  let sound;
-
-  switch (tileNumber) {
-    case 1:
-      sound = new Audio(tileSound_1);
-      break;
-    case 2:
-      sound = new Audio(tileSound_2);
-      break;
-    case 3:
-      sound = new Audio(tileSound_3);
-      break;
-    case 4:
-      sound = new Audio(tileSound_4);
-      break;
-    case 5:
-      sound = new Audio(tileSound_5);
-      break;
-    default:
-      return;
-  }
-
-  sound
-    .play()
-    .then(r => console.log(r))
-    .catch(error => {
+  const soundIndex = tileNumber - 1;
+  if (tileSounds[soundIndex]) {
+    tileSounds[soundIndex].play().catch(error => {
       console.error('Failed to load sound:', error);
     });
+  }
 };
 
 export const playEndSound = () => {
   const sound = new Audio(endSound);
-  sound
-    .play()
-    .then(r => console.log(r))
-    .catch(error => {
-      console.error('Failed to load sound:', error);
-    });
+  sound.play().catch(error => {
+    console.error('Failed to load sound:', error);
+  });
 };

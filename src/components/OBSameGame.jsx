@@ -4,7 +4,10 @@ import {
   findConnectedBlocks,
   applyGravity,
   updateScoreAndRemains,
-  hasRemovableBlocks, playTileSound, playEndSound,
+  hasRemovableBlocks,
+  playTileSound,
+  playEndSound,
+  preloadTileSounds,
 } from '../utils/Utils';
 import tile_1_1 from '../assets/images/tile_1_1.png';
 import tile_1_2 from '../assets/images/tile_1_2.png';
@@ -44,7 +47,7 @@ const OBSameGame = () => {
   const [remainingBlocks, setRemainingBlocks] = useState(ROWS * COLS);
 
   const handleMouseMove = useCallback(
-    (e) => {
+    e => {
       const tileElement = e.target;
 
       if (!tileElement.classList.contains('tile')) return;
@@ -61,8 +64,12 @@ const OBSameGame = () => {
         setHoveredGroup([]);
       }
     },
-    [board],
+    [board]
   );
+
+  useEffect(() => {
+    preloadTileSounds();
+  }, []);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);
@@ -78,7 +85,7 @@ const OBSameGame = () => {
 
     if (group.length < 2) return;
 
-    let newBoard = board.map((row) => [...row]);
+    let newBoard = board.map(row => [...row]);
 
     playTileSound(target);
 

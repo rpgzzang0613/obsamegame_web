@@ -1,22 +1,33 @@
 import './GameFooter.css';
 import {zeroPad} from '../utils/Utils.js';
 
-const GameFooter = ({handleNewGame, handleUndo, handleRedo, historyIndex, historyLength, score, remainingBlocks}) => {
+const GameFooter = ({
+  handleNewGame,
+  handleUndo,
+  handleRedo,
+  historyIndex,
+  historyLength,
+  score,
+  remainingBlocks,
+}) => {
   return (
     <div className="game-footer">
       <div className="footer-section">
         <div className="btn-container">
-          <button
-            className="btn-new"
-            onClick={handleNewGame}><span>New Game</span></button>
+          <button className="btn-new" onClick={handleNewGame}>
+            <span>New Game</span>
+          </button>
           <div className="controls">
-            <button
-              className="btn-history"
-              onClick={handleUndo} disabled={historyIndex === 0}><span>Undo</span></button>
+            <button className="btn-history" onClick={handleUndo} disabled={historyIndex === 0}>
+              <span>Undo</span>
+            </button>
             <button
               className="btn-history"
               onClick={handleRedo}
-              disabled={historyIndex === historyLength - 1}><span>Redo</span></button>
+              disabled={historyIndex === historyLength - 1}
+            >
+              <span>Redo</span>
+            </button>
           </div>
         </div>
       </div>
@@ -37,4 +48,3 @@ const GameFooter = ({handleNewGame, handleUndo, handleRedo, historyIndex, histor
 };
 
 export default GameFooter;
-

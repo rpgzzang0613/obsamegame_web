@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
-import bgm from "../assets/sounds/bgm.mp3";
-import "./SoundControl.css";
+import {useState, useRef} from 'react';
+import bgm from '../assets/sounds/bgm.mp3';
+import './SoundControl.css';
 
 const SoundControl = () => {
   const [isBgmOn, setIsBgmOn] = useState(false);
@@ -8,7 +8,7 @@ const SoundControl = () => {
 
   // BGM 토글 시 재생/정지
   const toggleBgm = () => {
-    setIsBgmOn((prev) => {
+    setIsBgmOn(prev => {
       if (!prev) {
         // 음악이 켜질 때
         audioRef.current.play(); // MP3 파일 재생
@@ -24,11 +24,7 @@ const SoundControl = () => {
   return (
     <div className="control-bar">
       <label className="bgm-toggle">
-        <input
-          type="checkbox"
-          checked={isBgmOn}
-          onChange={toggleBgm}
-        />
+        <input type="checkbox" checked={isBgmOn} onChange={toggleBgm} />
         BGM
       </label>
 

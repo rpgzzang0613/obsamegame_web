@@ -5,15 +5,9 @@ const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
     <div className="game-board">
       {board.map((row, rowIndex) =>
         row.map((tile, colIndex) => {
-          const isHovered = hoveredGroup.some(
-            ([r, c]) => r === rowIndex && c === colIndex,
-          );
+          const isHovered = hoveredGroup.some(([r, c]) => r === rowIndex && c === colIndex);
           const imgSrc =
-            tile === 0
-              ? null
-              : isHovered
-                ? tileImages[tile].hover
-                : tileImages[tile].normal;
+            tile === 0 ? null : isHovered ? tileImages[tile].hover : tileImages[tile].normal;
 
           return (
             <img
@@ -26,7 +20,7 @@ const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
               onClick={() => handleClick(rowIndex, colIndex)}
             />
           );
-        }),
+        })
       )}
     </div>
   );
