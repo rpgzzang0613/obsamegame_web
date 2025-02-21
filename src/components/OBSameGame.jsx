@@ -44,7 +44,7 @@ const OBSameGame = () => {
   const [history, setHistory] = useState([board]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [remainingBlocks, setRemainingBlocks] = useState(ROWS * COLS);
+  const [remain, setRemain] = useState(ROWS * COLS);
 
   const handleMouseMove = useCallback(
     e => {
@@ -103,8 +103,8 @@ const OBSameGame = () => {
     const newScore = score + (group.length - 2) ** 2;
     setScore(newScore);
 
-    const newRemainingBlocks = remainingBlocks - group.length;
-    setRemainingBlocks(newRemainingBlocks);
+    const newRemain = remain - group.length;
+    setRemain(newRemain);
 
     if (!hasRemovableBlocks(newBoard)) {
       playEndSound();
@@ -119,7 +119,7 @@ const OBSameGame = () => {
     setHistoryIndex(0);
     setHoveredGroup([]);
     setScore(0);
-    setRemainingBlocks(ROWS * COLS);
+    setRemain(ROWS * COLS);
   };
 
   const handleUndo = () => {
@@ -130,7 +130,7 @@ const OBSameGame = () => {
 
       const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
       setScore(tempScore);
-      setRemainingBlocks(tempRemains);
+      setRemain(tempRemains);
     }
   };
 
@@ -142,7 +142,7 @@ const OBSameGame = () => {
 
       const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
       setScore(tempScore);
-      setRemainingBlocks(tempRemains);
+      setRemain(tempRemains);
     }
   };
 
@@ -163,7 +163,7 @@ const OBSameGame = () => {
           historyIndex={historyIndex}
           historyLength={history.length}
           score={score}
-          remainingBlocks={remainingBlocks}
+          remain={remain}
         />
       </div>
       <SoundControl />
