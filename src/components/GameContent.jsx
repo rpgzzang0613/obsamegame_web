@@ -1,8 +1,8 @@
-import './GameContent.css';
+import styles from './GameContent.module.css';
 
 const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
   return (
-    <div className="game-board">
+    <div className={styles.gameBoard}>
       {board.map((row, rowIndex) =>
         row.map((tile, colIndex) => {
           const isHovered = hoveredGroup.some(([r, c]) => r === rowIndex && c === colIndex);

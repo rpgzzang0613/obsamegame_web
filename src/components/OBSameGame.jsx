@@ -2,16 +2,12 @@ import {useEffect, useCallback} from 'react';
 import {findConnectedBlocks} from '../utils/boardUtils.js';
 import GameContent from './GameContent.jsx';
 import GameFooter from './GameFooter.jsx';
-import './OBSameGame.css';
+import styles from './OBSameGame.module.css';
 import GameHeader from './GameHeader.jsx';
 import SoundControl from './SoundControl.jsx';
 import {useGameState} from '../hooks/useGameState.jsx';
 import {preloadTileSounds} from '../utils/soundUtils.js';
 import {tileImages} from '../utils/tileImages.js';
-
-// 보드 크기
-const ROWS = 10;
-const COLS = 20;
 
 const OBSameGame = () => {
   const {
@@ -26,7 +22,7 @@ const OBSameGame = () => {
     handleRedo,
     historyIndex,
     historyLength,
-  } = useGameState(ROWS, COLS);
+  } = useGameState();
 
   useEffect(() => {
     preloadTileSounds();
@@ -60,9 +56,9 @@ const OBSameGame = () => {
   }, [handleMouseMove]);
 
   return (
-    <div className="game-container">
+    <div className={styles.gameContainer}>
       <GameHeader />
-      <div className="bg-lager">
+      <div className={styles.bgLager}>
         <GameContent
           board={curBoard}
           hoveredGroup={hoveredGroup}

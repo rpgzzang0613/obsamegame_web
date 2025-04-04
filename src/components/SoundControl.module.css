@@ -1,4 +1,4 @@
-.control-bar {
+.controlBar {
   border-top: 1px solid black;
   height: 25px;
   display: flex;
@@ -8,7 +8,7 @@
   background-color: white;
 }
 
-.bgm-toggle {
+.bgmToggle {
   display: flex;
   align-items: center;
   font-size: 14px;

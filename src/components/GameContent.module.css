@@ -1,4 +1,4 @@
-.game-board {
+.gameBoard {
   display: grid;
   grid-template-columns: repeat(20, 32px);
   justify-content: center;

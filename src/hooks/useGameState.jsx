@@ -7,7 +7,10 @@ import {
 } from '../utils/boardUtils.js';
 import {playEndSound, playTileSound} from '../utils/soundUtils.js';
 
-export const useGameState = (ROWS, COLS) => {
+export const useGameState = () => {
+  const ROWS = 10;
+  const COLS = 20;
+
   const indexRef = useRef(0); // 현재 index
 
   const boardHistoryRef = useRef([generateBoard(ROWS, COLS)]); // 보드 히스토리

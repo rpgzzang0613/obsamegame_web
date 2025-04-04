@@ -1,6 +1,6 @@
 import {useState, useRef} from 'react';
 import bgm from '../assets/sounds/bgm.mp3';
-import './SoundControl.css';
+import styles from './SoundControl.module.css';
 
 const SoundControl = () => {
   const [isBgmOn, setIsBgmOn] = useState(false);
@@ -22,8 +22,8 @@ const SoundControl = () => {
   };
 
   return (
-    <div className="control-bar">
-      <label className="bgm-toggle">
+    <div className={styles.controlBar}>
+      <label className={styles.bgmToggle}>
         <input type="checkbox" checked={isBgmOn} onChange={toggleBgm} />
         BGM
       </label>

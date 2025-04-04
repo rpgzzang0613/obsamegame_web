@@ -1,9 +1,9 @@
-.game-container {
+.gameContainer {
   width: 640px;
   justify-self: center;
   border: 1px solid black;
 }
 
-.bg-lager {
+.bgLager {
   background: url('../assets/images/bg_lager.png');
 }
