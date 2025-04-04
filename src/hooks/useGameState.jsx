@@ -12,14 +12,17 @@ export const useGameState = () => {
   const COLS = 20;
 
   const indexRef = useRef(0); // 현재 index
+  const historyRef = useRef([
+    {
+      board: generateBoard(ROWS, COLS),
+      score: 0,
+      remain: ROWS * COLS,
+    },
+  ]);
 
-  const boardHistoryRef = useRef([generateBoard(ROWS, COLS)]); // 보드 히스토리
-  const scoreHistoryRef = useRef([0]); // 점수 히스토리
-  const remainHistoryRef = useRef([ROWS * COLS]); // 남은 타일 수 히스토리
-
-  const [curBoard, setCurBoard] = useState(boardHistoryRef.current[0]); // 현재 index의 보드 상태
-  const [curScore, setCurScore] = useState(scoreHistoryRef.current[0]); // 현재 index의 점수
-  const [curRemain, setCurRemain] = useState(remainHistoryRef.current[0]); // 현재 index의 남은 타일 수
+  const [curBoard, setCurBoard] = useState(historyRef.current[0].board); // 현재 index의 보드 상태
+  const [curScore, setCurScore] = useState(historyRef.current[0].score); // 현재 index의 점수
+  const [curRemain, setCurRemain] = useState(historyRef.current[0].remain); // 현재 index의 남은 타일 수
 
   const [hoveredGroup, setHoveredGroup] = useState([]);
 
@@ -31,50 +34,50 @@ export const useGameState = () => {
       return;
     }
 
-    let newBoard = curBoard.map(row => [...row]);
-
     playTileSound(target);
 
-    group.forEach(([r, c]) => (newBoard[r][c] = 0));
+    const newIndex = indexRef.current + 1;
 
+    let newBoard = curBoard.map(row => [...row]);
+    group.forEach(([r, c]) => (newBoard[r][c] = 0));
     newBoard = applyGravity(newBoard);
 
-    const newIndex = indexRef.current + 1;
-    boardHistoryRef.current = boardHistoryRef.current.slice(0, newIndex).concat([newBoard]);
-    scoreHistoryRef.current = scoreHistoryRef.current
-      .slice(0, newIndex)
-      .concat([curScore + (group.length - 2) ** 2]);
-    remainHistoryRef.current = remainHistoryRef.current
-      .slice(0, newIndex)
-      .concat([curRemain - group.length]);
+    const newScore = curScore + (group.length - 2) ** 2;
+    const newRemain = curRemain - group.length;
+
+    const newState = {
+      board: newBoard,
+      score: newScore,
+      remain: newRemain,
+    };
+
+    historyRef.current = historyRef.current.slice(0, newIndex).concat([newState]);
     indexRef.current = newIndex;
 
     setCurBoard(newBoard);
-    setCurScore(scoreHistoryRef.current[newIndex]);
-    setCurRemain(remainHistoryRef.current[newIndex]);
+    setCurScore(newScore);
+    setCurRemain(newRemain);
     setHoveredGroup([]);
 
     if (!hasRemovableBlocks(newBoard)) {
       playEndSound();
-      setTimeout(
-        () => alert(`Game Over! Your final score: ${scoreHistoryRef.current[newIndex]}`),
-        300
-      );
+      setTimeout(() => alert(`Game Over! Your final score: ${newScore}`), 300);
     }
   };
 
   const handleNewGame = () => {
-    const newBoard = generateBoard(ROWS, COLS);
-    const newRemain = ROWS * COLS;
+    const newState = {
+      board: generateBoard(ROWS, COLS),
+      score: 0,
+      remain: ROWS * COLS,
+    };
 
-    boardHistoryRef.current = [newBoard];
-    scoreHistoryRef.current = [0];
-    remainHistoryRef.current = [newRemain];
+    historyRef.current = [newState];
     indexRef.current = 0;
 
-    setCurBoard(newBoard);
+    setCurBoard(newState.board);
     setCurScore(0);
-    setCurRemain(newRemain);
+    setCurRemain(newState.remain);
     setHoveredGroup([]);
   };
 
@@ -82,22 +85,22 @@ export const useGameState = () => {
     if (indexRef.current > 0) {
       indexRef.current -= 1;
 
-      const newIndex = indexRef.current;
+      const state = historyRef.current[indexRef.current];
 
-      setCurBoard(boardHistoryRef.current[newIndex]);
-      setCurScore(scoreHistoryRef.current[newIndex]);
-      setCurRemain(remainHistoryRef.current[newIndex]);
+      setCurBoard(state.board);
+      setCurScore(state.score);
+      setCurRemain(state.remain);
     }
   };
 
   const handleRedo = () => {
-    if (indexRef.current < boardHistoryRef.current.length - 1) {
+    if (indexRef.current < historyRef.current.length - 1) {
       indexRef.current += 1;
-      const newIndex = indexRef.current;
+      const state = historyRef.current[indexRef.current];
 
-      setCurBoard(boardHistoryRef.current[newIndex]);
-      setCurScore(scoreHistoryRef.current[newIndex]);
-      setCurRemain(remainHistoryRef.current[newIndex]);
+      setCurBoard(state.board);
+      setCurScore(state.score);
+      setCurRemain(state.remain);
     }
   };
 
@@ -112,6 +115,6 @@ export const useGameState = () => {
     handleUndo,
     handleRedo,
     historyIndex: indexRef.current,
-    historyLength: boardHistoryRef.current.length,
+    historyLength: historyRef.current.length,
   };
 };
