@@ -1,9 +1,8 @@
-import {useState, useEffect, useCallback} from 'react';
+import {useState, useEffect, useCallback, useRef} from 'react';
 import {
   generateBoard,
   findConnectedBlocks,
   applyGravity,
-  updateScoreAndRemains,
   hasRemovableBlocks,
   playTileSound,
   playEndSound,
@@ -39,37 +38,40 @@ const ROWS = 10;
 const COLS = 20;
 
 const OBSameGame = () => {
-  const [board, setBoard] = useState(generateBoard(ROWS, COLS));
+  const historyIndexRef = useRef(0);
+
+  const boardHistoryRef = useRef([generateBoard(ROWS, COLS)]);
+  const scoreHistoryRef = useRef([0]);
+  const remainHistoryRef = useRef([ROWS * COLS]);
+
+  const [curBoard, setCurBoard] = useState(boardHistoryRef.current[0]);
+  const [curScore, setCurScore] = useState(scoreHistoryRef.current[0]);
+  const [curRemain, setCurRemain] = useState(remainHistoryRef.current[0]);
+
   const [hoveredGroup, setHoveredGroup] = useState([]);
-  const [history, setHistory] = useState([board]);
-  const [historyIndex, setHistoryIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [remain, setRemain] = useState(ROWS * COLS);
+
+  useEffect(() => {
+    preloadTileSounds();
+  }, []);
 
   const handleMouseMove = useCallback(
     e => {
       const tileElement = e.target;
 
-      if (!tileElement.classList.contains('tile')) return;
+      if (!tileElement.classList.contains('tile')) {
+        return;
+      }
 
       const rowIndex = parseInt(tileElement.dataset.rowIndex);
       const colIndex = parseInt(tileElement.dataset.colIndex);
 
-      const target = board[rowIndex][colIndex];
-      const group = findConnectedBlocks(board, rowIndex, colIndex, target);
+      const target = curBoard[rowIndex][colIndex];
+      const group = findConnectedBlocks(curBoard, rowIndex, colIndex, target);
 
-      if (group.length > 1) {
-        setHoveredGroup(group);
-      } else {
-        setHoveredGroup([]);
-      }
+      setHoveredGroup(group.length > 1 ? group : []);
     },
-    [board]
+    [curBoard]
   );
-
-  useEffect(() => {
-    preloadTileSounds();
-  }, []);
 
   useEffect(() => {
     document.addEventListener('mousemove', handleMouseMove);
@@ -80,12 +82,14 @@ const OBSameGame = () => {
   }, [handleMouseMove]);
 
   const handleClick = (row, col) => {
-    const target = board[row][col];
-    const group = findConnectedBlocks(board, row, col, target);
+    const target = curBoard[row][col];
+    const group = findConnectedBlocks(curBoard, row, col, target);
 
-    if (group.length < 2) return;
+    if (group.length < 2) {
+      return;
+    }
 
-    let newBoard = board.map(row => [...row]);
+    let newBoard = curBoard.map(row => [...row]);
 
     playTileSound(target);
 
@@ -93,56 +97,65 @@ const OBSameGame = () => {
 
     newBoard = applyGravity(newBoard);
 
-    const newHistory = [...history.slice(0, historyIndex + 1), newBoard];
+    const newIndex = historyIndexRef.current + 1;
+    boardHistoryRef.current = boardHistoryRef.current.slice(0, newIndex).concat([newBoard]);
+    scoreHistoryRef.current = scoreHistoryRef.current
+      .slice(0, newIndex)
+      .concat([curScore + (group.length - 2) ** 2]);
+    remainHistoryRef.current = remainHistoryRef.current
+      .slice(0, newIndex)
+      .concat([curRemain - group.length]);
+    historyIndexRef.current = newIndex;
 
-    setBoard(newBoard);
-    setHistory(newHistory);
-    setHistoryIndex(newHistory.length - 1);
+    setCurBoard(newBoard);
+    setCurScore(scoreHistoryRef.current[newIndex]);
+    setCurRemain(remainHistoryRef.current[newIndex]);
     setHoveredGroup([]);
-
-    const newScore = score + (group.length - 2) ** 2;
-    setScore(newScore);
-
-    const newRemain = remain - group.length;
-    setRemain(newRemain);
 
     if (!hasRemovableBlocks(newBoard)) {
       playEndSound();
-      setTimeout(() => alert(`Game Over! Your final score: ${newScore}`), 300);
+      setTimeout(
+        () => alert(`Game Over! Your final score: ${scoreHistoryRef.current[newIndex]}`),
+        300
+      );
     }
   };
 
   const handleNewGame = () => {
     const newBoard = generateBoard(ROWS, COLS);
-    setBoard(newBoard);
-    setHistory([newBoard]);
-    setHistoryIndex(0);
+    const newRemain = ROWS * COLS;
+
+    boardHistoryRef.current = [newBoard];
+    scoreHistoryRef.current = [0];
+    remainHistoryRef.current = [newRemain];
+    historyIndexRef.current = 0;
+
+    setCurBoard(newBoard);
+    setCurScore(0);
+    setCurRemain(newRemain);
     setHoveredGroup([]);
-    setScore(0);
-    setRemain(ROWS * COLS);
   };
 
   const handleUndo = () => {
-    if (historyIndex > 0) {
-      const newIndex = historyIndex - 1;
-      setBoard(history[newIndex]);
-      setHistoryIndex(newIndex);
+    if (historyIndexRef.current > 0) {
+      historyIndexRef.current -= 1;
 
-      const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
-      setScore(tempScore);
-      setRemain(tempRemains);
+      const newIndex = historyIndexRef.current;
+
+      setCurBoard(boardHistoryRef.current[newIndex]);
+      setCurScore(scoreHistoryRef.current[newIndex]);
+      setCurRemain(remainHistoryRef.current[newIndex]);
     }
   };
 
   const handleRedo = () => {
-    if (historyIndex < history.length - 1) {
-      const newIndex = historyIndex + 1;
-      setBoard(history[newIndex]);
-      setHistoryIndex(newIndex);
+    if (historyIndexRef.current < boardHistoryRef.current.length - 1) {
+      historyIndexRef.current += 1;
+      const newIndex = historyIndexRef.current;
 
-      const {tempScore, tempRemains} = updateScoreAndRemains(history, newIndex);
-      setScore(tempScore);
-      setRemain(tempRemains);
+      setCurBoard(boardHistoryRef.current[newIndex]);
+      setCurScore(scoreHistoryRef.current[newIndex]);
+      setCurRemain(remainHistoryRef.current[newIndex]);
     }
   };
 
@@ -151,7 +164,7 @@ const OBSameGame = () => {
       <GameHeader />
       <div className="bg-lager">
         <GameContent
-          board={board}
+          board={curBoard}
           hoveredGroup={hoveredGroup}
           tileImages={tileImages}
           handleClick={handleClick}
@@ -160,10 +173,10 @@ const OBSameGame = () => {
           handleNewGame={handleNewGame}
           handleUndo={handleUndo}
           handleRedo={handleRedo}
-          historyIndex={historyIndex}
-          historyLength={history.length}
-          score={score}
-          remain={remain}
+          historyIndex={historyIndexRef.current}
+          historyLength={boardHistoryRef.current.length}
+          score={curScore}
+          remain={curRemain}
         />
       </div>
       <SoundControl />

@@ -102,22 +102,6 @@ export const countRemovedBlocks = (prevBoard, currBoard) => {
   return count;
 };
 
-export const updateScoreAndRemains = (history, index) => {
-  let tempScore = 0;
-  let tempRemains = history[0].length * history[0][0].length;
-
-  for (let i = 1; i <= index; i++) {
-    const prevBoard = history[i - 1];
-    const currBoard = history[i];
-
-    const removedCount = countRemovedBlocks(prevBoard, currBoard);
-    tempRemains -= removedCount;
-    tempScore += (removedCount - 2) ** 2;
-  }
-
-  return {tempScore, tempRemains};
-};
-
 let tileSounds = [];
 
 export const preloadTileSounds = async () => {
