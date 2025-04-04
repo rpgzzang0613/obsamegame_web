@@ -1,16 +1,15 @@
-import tileSound_1 from '../assets/sounds/tile_1.mp3';
-import tileSound_2 from '../assets/sounds/tile_2.mp3';
-import tileSound_3 from '../assets/sounds/tile_3.mp3';
-import tileSound_4 from '../assets/sounds/tile_4.mp3';
-import tileSound_5 from '../assets/sounds/tile_5.mp3';
-import endSound from '../assets/sounds/end.mp3';
-
+/**
+ * 게임 보드 랜덤 생성 함수
+ */
 export const generateBoard = (ROWS = 10, COLS = 20) => {
   return Array.from({length: ROWS}, () =>
     Array.from({length: COLS}, () => Math.floor(Math.random() * 5) + 1)
   );
 };
 
+/**
+ * 타겟 타일과 연결된 동일한 타일 그룹 찾는 함수
+ */
 export const findConnectedBlocks = (board, row, col, target, visited = new Set()) => {
   let key = `${row},${col}`;
   if (
@@ -39,6 +38,9 @@ export const findConnectedBlocks = (board, row, col, target, visited = new Set()
   return group;
 };
 
+/**
+ * 타일 제거시 기존 타일이 빈 자리를 채우도록 정렬하는 함수
+ */
 export const applyGravity = (board, ROWS = 10, COLS = 20) => {
   for (let col = 0; col < COLS; col++) {
     let writeRow = ROWS - 1;
@@ -70,10 +72,9 @@ export const applyGravity = (board, ROWS = 10, COLS = 20) => {
   return board;
 };
 
-export const zeroPad = (num, places) => {
-  return String(num).padStart(places, '0');
-};
-
+/**
+ * 보드에 제거 가능한 타일이 있는지 확인하는 함수
+ */
 export const hasRemovableBlocks = board => {
   const ROWS = board.length;
   const COLS = board[0].length;
@@ -88,49 +89,4 @@ export const hasRemovableBlocks = board => {
     }
   }
   return false;
-};
-
-export const countRemovedBlocks = (prevBoard, currBoard) => {
-  let count = 0;
-  for (let row = 0; row < prevBoard.length; row++) {
-    for (let col = 0; col < prevBoard[row].length; col++) {
-      if (prevBoard[row][col] !== 0 && currBoard[row][col] === 0) {
-        count++;
-      }
-    }
-  }
-  return count;
-};
-
-let tileSounds = [];
-
-export const preloadTileSounds = async () => {
-  const tileSoundFiles = [tileSound_1, tileSound_2, tileSound_3, tileSound_4, tileSound_5];
-
-  const loadPromises = tileSoundFiles.map(async file => {
-    const audio = new Audio(file);
-    await new Promise(resolve => {
-      audio.oncanplaythrough = resolve;
-    });
-
-    return audio;
-  });
-
-  tileSounds = await Promise.all(loadPromises);
-};
-
-export const playTileSound = tileNumber => {
-  const soundIndex = tileNumber - 1;
-  if (tileSounds[soundIndex]) {
-    tileSounds[soundIndex].play().catch(error => {
-      console.error('Failed to load sound:', error);
-    });
-  }
-};
-
-export const playEndSound = () => {
-  const sound = new Audio(endSound);
-  sound.play().catch(error => {
-    console.error('Failed to load sound:', error);
-  });
 };
