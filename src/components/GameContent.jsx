@@ -14,7 +14,7 @@ const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
               key={`${rowIndex}-${colIndex}`}
               src={imgSrc}
               alt={`Tile ${tile}`}
-              className="tile"
+              className={styles.tile}
               data-row-index={rowIndex}
               data-col-index={colIndex}
               onClick={() => handleClick(rowIndex, colIndex)}
