@@ -14,11 +14,12 @@ const GameFooter = ({
     <div className={styles.gameFooter}>
       <div className={styles.footerSection}>
         <div className={styles.btnContainer}>
-          <button className={styles.btnNew} onClick={handleNewGame}>
+          <button type="button" className={styles.btnNew} onClick={handleNewGame}>
             <span>New Game</span>
           </button>
           <div className={styles.controls}>
             <button
+              type="button"
               className={styles.btnHistory}
               onClick={handleUndo}
               disabled={historyIndex === 0}
@@ -26,6 +27,7 @@ const GameFooter = ({
               <span>Undo</span>
             </button>
             <button
+              type="button"
               className={styles.btnHistory}
               onClick={handleRedo}
               disabled={historyIndex === historyLength - 1}
