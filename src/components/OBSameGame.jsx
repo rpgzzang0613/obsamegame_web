@@ -32,7 +32,8 @@ const OBSameGame = () => {
     e => {
       const tileElement = e.target;
 
-      if (!tileElement.classList.contains('tile')) {
+      // Check if the class name includes 'tile' instead of exact match
+      if (!Array.from(tileElement.classList).some(className => className.includes('tile'))) {
         return;
       }
 

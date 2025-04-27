@@ -41,15 +41,17 @@ export const findConnectedBlocks = (board, row, col, target, visited = new Set()
 /**
  * 타일 제거시 기존 타일이 빈 자리를 채우도록 정렬하는 함수
  */
-export const applyGravity = (board, ROWS = 10, COLS = 20) => {
+export const applyGravity = (board, ROWS = 10, COLS = 20) => {  // Create a deep copy of the board to avoid modifying the original
+  const newBoard = board.map(row => [...row]);
+
   for (let col = 0; col < COLS; col++) {
     let writeRow = ROWS - 1;
 
     for (let row = ROWS - 1; row >= 0; row--) {
-      if (board[row][col] !== 0) {
+      if (newBoard[row][col] !== 0) {
         if (row !== writeRow) {
-          board[writeRow][col] = board[row][col];
-          board[row][col] = 0;
+          newBoard[writeRow][col] = newBoard[row][col];
+          newBoard[row][col] = 0;
         }
         writeRow--;
       }
@@ -58,18 +60,18 @@ export const applyGravity = (board, ROWS = 10, COLS = 20) => {
 
   let writeCol = 0;
   for (let col = 0; col < COLS; col++) {
-    if (board[ROWS - 1][col] !== 0) {
+    if (newBoard[ROWS - 1][col] !== 0) {
       if (col !== writeCol) {
         for (let row = 0; row < ROWS; row++) {
-          board[row][writeCol] = board[row][col];
-          board[row][col] = 0;
+          newBoard[row][writeCol] = newBoard[row][col];
+          newBoard[row][col] = 0;
         }
       }
       writeCol++;
     }
   }
 
-  return board;
+  return newBoard;
 };
 
 /**
