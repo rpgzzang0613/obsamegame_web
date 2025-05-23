@@ -1,5 +1,5 @@
 import styles from './GameFooter.module.css';
-import {zeroPad} from '../utils/Utils.js';
+import {zeroPad} from '../utils/formatUtils.js';
 
 const GameFooter = ({
   handleNewGame,
