@@ -8,7 +8,7 @@ const GameFooter = ({
   historyIndex,
   historyLength,
   score,
-  remainingBlocks,
+  remain,
 }) => {
   return (
     <div className={styles.gameFooter}>
@@ -39,7 +39,7 @@ const GameFooter = ({
         <div className={styles.displayContainer}>
           <div className={styles.display}>
             <span className={styles.label}>Remains :&nbsp;</span>
-            <span className={styles.digital}>{zeroPad(remainingBlocks, 3)}</span>
+            <span className={styles.digital}>{zeroPad(remain, 3)}</span>
           </div>
           <div className={styles.display}>
             <span className={styles.label}>Score :&nbsp;</span>
