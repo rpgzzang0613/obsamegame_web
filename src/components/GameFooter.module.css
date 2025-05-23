@@ -1,22 +1,22 @@
-.game-footer {
+.gameFooter {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 48px;
 }
 
-.footer-section {
+.footerSection {
   padding-left: 16px;
   padding-right: 16px;
   width: 320px;
 }
 
-.btn-container {
+.btnContainer {
   display: flex;
   justify-content: space-between;
 }
 
-.btn-container button {
+.btnContainer button {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,35 +31,35 @@
   text-align: center;
 }
 
-.btn-container button:disabled {
+.btnContainer button:disabled {
   border: 1px solid #ccc;
   color: #b0b0b0;
 }
 
-.btn-container button:not(:disabled):active {
+.btnContainer button:not(:disabled):active {
   border-color: #333;
 }
 
-.btn-container button:not(:disabled):active > span {
+.btnContainer button:not(:disabled):active > span {
   transform: translate(1px, 1px);
 }
 
-.btn-container > button.btn-new {
+.btnContainer > button.btnNew {
   width: 90px;
   height: 28px;
 }
 
-.btn-container .controls {
+.btnContainer .controls {
   display: flex;
   gap: 4px;
 }
 
-.btn-container .controls button.btn-history {
+.btnContainer .controls button.btnHistory {
   width: 75px;
   height: 28px;
 }
 
-.display-container {
+.displayContainer {
   display: flex;
 }
 

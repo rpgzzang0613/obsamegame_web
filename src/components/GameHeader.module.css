@@ -11,29 +11,29 @@
   height: 18px;
 }
 
-.header img.px-16 {
+.header img.px16 {
   width: 16px;
   height: 16px;
 }
 
-.header-left {
+.headerLeft {
   display: flex;
   gap: 6px;
   align-items: center;
   padding-left: 4px;
 }
 
-.header-left span {
+.headerLeft span {
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 14px;
 }
 
-.header-right {
+.headerRight {
   display: flex;
 }
 
-.header-right > div {
+.headerRight > div {
   width: 46px;
   display: flex;
   justify-content: center;

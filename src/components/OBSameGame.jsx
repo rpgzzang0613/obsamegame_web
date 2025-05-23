@@ -21,7 +21,7 @@ import tile_5_1 from '../assets/images/tile_5_1.png';
 import tile_5_2 from '../assets/images/tile_5_2.png';
 import GameContent from './GameContent.jsx';
 import GameFooter from './GameFooter.jsx';
-import './OBSameGame.css';
+import styles from './OBSameGame.module.css';
 import GameHeader from './GameHeader.jsx';
 import SoundControl from './SoundControl.jsx';
 
@@ -50,7 +50,7 @@ const OBSameGame = () => {
     e => {
       const tileElement = e.target;
 
-      if (!tileElement.classList.contains('tile')) return;
+      if (!tileElement.dataset.rowIndex || !tileElement.dataset.colIndex) return;
 
       const rowIndex = parseInt(tileElement.dataset.rowIndex);
       const colIndex = parseInt(tileElement.dataset.colIndex);
@@ -147,9 +147,9 @@ const OBSameGame = () => {
   };
 
   return (
-    <div className="game-container">
+    <div className={styles.gameContainer}>
       <GameHeader />
-      <div className="bg-lager">
+      <div className={styles.bgLager}>
         <GameContent
           board={board}
           hoveredGroup={hoveredGroup}

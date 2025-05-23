@@ -1,4 +1,4 @@
-import './GameFooter.css';
+import styles from './GameFooter.module.css';
 import {zeroPad} from '../utils/Utils.js';
 
 const GameFooter = ({
@@ -11,18 +11,22 @@ const GameFooter = ({
   remainingBlocks,
 }) => {
   return (
-    <div className="game-footer">
-      <div className="footer-section">
-        <div className="btn-container">
-          <button className="btn-new" onClick={handleNewGame}>
+    <div className={styles.gameFooter}>
+      <div className={styles.footerSection}>
+        <div className={styles.btnContainer}>
+          <button className={styles.btnNew} onClick={handleNewGame}>
             <span>New Game</span>
           </button>
-          <div className="controls">
-            <button className="btn-history" onClick={handleUndo} disabled={historyIndex === 0}>
+          <div className={styles.controls}>
+            <button
+              className={styles.btnHistory}
+              onClick={handleUndo}
+              disabled={historyIndex === 0}
+            >
               <span>Undo</span>
             </button>
             <button
-              className="btn-history"
+              className={styles.btnHistory}
               onClick={handleRedo}
               disabled={historyIndex === historyLength - 1}
             >
@@ -31,15 +35,15 @@ const GameFooter = ({
           </div>
         </div>
       </div>
-      <div className="footer-section">
-        <div className="display-container">
-          <div className="display">
-            <span className="label">Remains :&nbsp;</span>
-            <span className="digital">{zeroPad(remainingBlocks, 3)}</span>
+      <div className={styles.footerSection}>
+        <div className={styles.displayContainer}>
+          <div className={styles.display}>
+            <span className={styles.label}>Remains :&nbsp;</span>
+            <span className={styles.digital}>{zeroPad(remainingBlocks, 3)}</span>
           </div>
-          <div className="display">
-            <span className="label">Score :&nbsp;</span>
-            <span className="digital">{zeroPad(score, 4)}</span>
+          <div className={styles.display}>
+            <span className={styles.label}>Score :&nbsp;</span>
+            <span className={styles.digital}>{zeroPad(score, 4)}</span>
           </div>
         </div>
       </div>
