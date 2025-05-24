@@ -1,11 +1,11 @@
-.gameFooter {
+.gamePanel {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 48px;
 }
 
-.footerSection {
+.gamePanel .section {
   padding-left: 16px;
   padding-right: 16px;
   width: 320px;

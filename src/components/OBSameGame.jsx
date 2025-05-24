@@ -1,13 +1,14 @@
-import {useEffect, useCallback} from 'react';
+import {useEffect, useCallback, useState, useRef} from 'react';
 import {findConnectedBlocks} from '../utils/boardUtils.js';
-import GameContent from './GameContent.jsx';
-import GameFooter from './GameFooter.jsx';
+import GameBoard from './GameScreen/GameBoard/GameBoard.jsx';
+import GamePanel from './GameScreen/GamePanel/GamePanel.jsx';
 import styles from './OBSameGame.module.css';
-import GameHeader from './GameHeader.jsx';
-import SoundControl from './SoundControl.jsx';
+import TitleBar from './TitleBar/TitleBar.jsx';
+import SoundToggle from './GameScreen/SoundToggle.jsx';
 import {useGameState} from '../hooks/useGameState.jsx';
 import {preloadTileSounds} from '../utils/soundUtils.js';
 import {tileImages} from '../utils/tileImages.js';
+import bgm from '../assets/sounds/bgm.mp3';
 
 const OBSameGame = () => {
   const {
@@ -17,7 +18,7 @@ const OBSameGame = () => {
     hoveredGroup,
     setHoveredGroup,
     handleClick,
-    handleNewGame,
+    handleRestart,
     handleUndo,
     handleRedo,
     historyIndex,
@@ -56,27 +57,62 @@ const OBSameGame = () => {
     };
   }, [handleMouseMove]);
 
+  const [isStarted, setIsStarted] = useState(false);
+  const [isBgmOn, setIsBgmOn] = useState(false);
+
+  const bgmRef = useRef(null);
+
   return (
-    <div className={styles.gameContainer}>
-      <GameHeader />
-      <div className={styles.bgLager}>
-        <GameContent
-          board={curBoard}
-          hoveredGroup={hoveredGroup}
-          tileImages={tileImages}
-          handleClick={handleClick}
-        />
-        <GameFooter
-          handleNewGame={handleNewGame}
-          handleUndo={handleUndo}
-          handleRedo={handleRedo}
-          historyIndex={historyIndex}
-          historyLength={historyLength}
-          score={curScore}
-          remain={curRemain}
-        />
-      </div>
-      <SoundControl />
+    <div className={styles.obSameGame}>
+      <TitleBar
+        setIsBgmOn={setIsBgmOn}
+        isStarted={isStarted}
+        setIsStarted={setIsStarted}
+        bgmRef={bgmRef}
+        handleRestart={handleRestart}
+      />
+      {isStarted ? (
+        <div className={styles.gameContainer}>
+          <div className={styles.gameScreen}>
+            <GameBoard
+              board={curBoard}
+              hoveredGroup={hoveredGroup}
+              tileImages={tileImages}
+              handleClick={handleClick}
+            />
+            <GamePanel
+              handleRestart={handleRestart}
+              handleUndo={handleUndo}
+              handleRedo={handleRedo}
+              historyIndex={historyIndex}
+              historyLength={historyLength}
+              score={curScore}
+              remain={curRemain}
+            />
+          </div>
+          <SoundToggle isBgmOn={isBgmOn} setIsBgmOn={setIsBgmOn} bgmRef={bgmRef} />
+        </div>
+      ) : (
+        <div className={styles.readyContainer}>
+          <div className={styles.left}>
+            <button
+              type="button"
+              onClick={() => {
+                setIsStarted(true);
+                setIsBgmOn(true);
+                bgmRef.current.play();
+              }}
+            >
+              시작
+            </button>
+          </div>
+          <div className={styles.right}></div>
+        </div>
+      )}
+      <audio ref={bgmRef} loop>
+        <source src={bgm} type="audio/mp3" />
+        브라우저가 audio 태그를 지원하지 않아 bgm 재생이 불가합니다.
+      </audio>
     </div>
   );
 };

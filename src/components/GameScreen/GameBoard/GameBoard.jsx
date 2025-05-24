@@ -1,6 +1,6 @@
-import styles from './GameContent.module.css';
+import styles from './GameBoard.module.css';
 
-const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
+const GameBoard = ({board, hoveredGroup, tileImages, handleClick}) => {
   return (
     <div className={styles.gameBoard}>
       {board.map((row, rowIndex) =>
@@ -26,4 +26,4 @@ const GameContent = ({board, hoveredGroup, tileImages, handleClick}) => {
   );
 };
 
-export default GameContent;
+export default GameBoard;

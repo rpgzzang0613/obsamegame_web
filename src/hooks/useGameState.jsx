@@ -65,7 +65,7 @@ export const useGameState = () => {
     }
   };
 
-  const handleNewGame = () => {
+  const handleRestart = () => {
     const newState = {
       board: generateBoard(ROWS, COLS),
       score: 0,
@@ -111,7 +111,7 @@ export const useGameState = () => {
     hoveredGroup,
     setHoveredGroup,
     handleClick,
-    handleNewGame,
+    handleRestart,
     handleUndo,
     handleRedo,
     historyIndex: indexRef.current,

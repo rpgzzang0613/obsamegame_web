@@ -1,4 +1,4 @@
-.header {
+.titleBar {
   display: flex;
   height: 27px;
   justify-content: space-between;
@@ -6,36 +6,47 @@
   background-color: white;
 }
 
-.header img {
+.titleBar img {
   width: 18px;
   height: 18px;
 }
 
-.header img.px16 {
+.titleBar img.px16 {
   width: 16px;
   height: 16px;
 }
 
-.headerLeft {
+.titleBar .left {
   display: flex;
   gap: 6px;
   align-items: center;
   padding-left: 4px;
 }
 
-.headerLeft span {
+.titleBar .left span {
   font-family: 'Segoe UI', sans-serif;
   font-size: 14px;
   line-height: 14px;
 }
 
-.headerRight {
+.titleBar .right {
   display: flex;
+  height: 100%;
 }
 
-.headerRight > div {
+.titleBar .right > div {
   width: 46px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+}
+
+.titleBar .right > div.close:hover {
+  background-color: #e81123;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.titleBar .right > div.close:hover img {
+  filter: brightness(0) invert(1);
 }

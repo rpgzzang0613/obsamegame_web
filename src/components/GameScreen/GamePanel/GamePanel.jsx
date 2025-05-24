@@ -1,8 +1,8 @@
-import styles from './GameFooter.module.css';
-import {zeroPad} from '../utils/formatUtils.js';
+import styles from './GamePanel.module.css';
+import {zeroPad} from '../../../utils/formatUtils.js';
 
-const GameFooter = ({
-  handleNewGame,
+const GamePanel = ({
+  handleRestart,
   handleUndo,
   handleRedo,
   historyIndex,
@@ -11,10 +11,10 @@ const GameFooter = ({
   remain,
 }) => {
   return (
-    <div className={styles.gameFooter}>
-      <div className={styles.footerSection}>
+    <div className={styles.gamePanel}>
+      <div className={styles.section}>
         <div className={styles.btnContainer}>
-          <button className={styles.btnNew} onClick={handleNewGame}>
+          <button className={styles.btnNew} onClick={handleRestart}>
             <span>New Game</span>
           </button>
           <div className={styles.controls}>
@@ -35,7 +35,7 @@ const GameFooter = ({
           </div>
         </div>
       </div>
-      <div className={styles.footerSection}>
+      <div className={styles.section}>
         <div className={styles.displayContainer}>
           <div className={styles.display}>
             <span className={styles.label}>Remains :&nbsp;</span>
@@ -51,4 +51,4 @@ const GameFooter = ({
   );
 };
 
-export default GameFooter;
+export default GamePanel;
